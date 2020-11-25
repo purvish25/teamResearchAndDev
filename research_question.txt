@@ -1,0 +1,28 @@
+Group: group 49
+
+Question
+========
+
+RQ: Is there a correlation between suicide rate and per capita GDP?​
+
+Null hypothesis: There is no correlation between suicide rate and per capita GDP of a country.​
+
+Alternative hypothesis: There is a correlation between suicide rate and per capita GDP of a country.
+
+
+Dataset
+=======
+
+URL: https://www.kaggle.com/russellyates88/suicide-rates-overview-1985-to-2016
+
+Column Headings: 
+
+```
+> View(suicide_dataset)
+> colnames(suicide_dataset)
+ [1] "country"            "year"               "sex"               
+ [4] "age"                "suicides_no"        "population"        
+ [7] "suicides/100k pop"  "country-year"       "HDI for year"      
+[10] "gdp_for_year ($)"   "gdp_per_capita ($)" "generation"
+
+```
