@@ -3,11 +3,11 @@ Group: group 49
 Question
 ========
 
-RQ: Is there a correlation between suicide rate and per capita GDP?​
+RQ: Is there a difference in the suicide rate/100k among young and middle age?
 
-Null hypothesis: There is no correlation between suicide rate and per capita GDP of a country.​
+Null hypothesis: There is no difference in the suicide rate between young and middle age.
 
-Alternative hypothesis: There is a correlation between suicide rate and per capita GDP of a country.
+Alternative hypothesis: There is a difference in the suicide rate between young and middle age.
 
 
 Dataset
