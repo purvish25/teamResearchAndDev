@@ -93,15 +93,36 @@ suicide_by_age <- suicide_dataset %>%
             suicide_per_100k = (suicides / population) * 100000) %>%
   arrange(suicide_per_100k)
 
-# Rearranging the x axis by ascending order.............
+# STEP-2: Rearranging the x axis by ascending order.............
 suicide_by_age$age <- factor(suicide_by_age$age,
                              levels = rev(suicide_by_age$age[order(-suicide_by_age$suicide_per_100k)]))
 
-# Results (Graph) to show the Suicide rate per 100k over all age groups using bar plot.......
+# STEP-3: Results (Graph) to show the Suicide rate per 100k over all age groups using bar plot.......
 ggplot(suicide_by_age, aes(x=age, y=suicide_per_100k, fill = age)) + geom_bar(stat="identity")+ theme_minimal() + theme(axis.text=element_text(size=6)) +labs(title="Suicides per 100k (1985 - 2015)", subtitle = "Age groups for all Countries with 30 years of data") + theme(legend.position = "none") + theme(axis.text.x = element_text(angle = 90, hjust = 1))
 
 
+# Author: Vikrant Sharma
+# Email: vs18abb@herts.ac.uk
+# Course: M.Sc. Computer Networking Principles (Full time)
+# University of Hertfordshire
 
+########################################################################################
+#Task 2 - Suicide rate/100k over all genders, age groups (Stacked graph to show proportion)
+######################################################################################################
 
+# STEP-1: Calculate global average number of suicides per 100k for all gender, age groups with 30 years of data
+df_region_country_gender <- suicide_dataset %>%
+  group_by(age, sex) %>%
+  summarize(suicide_per_100k = (sum(as.numeric(suicides_no)) / sum(as.numeric(population))) * 100000)
+
+# STEP-2: Results (Graph) to show the Suicide rate per 100k over all genders, age groups using Stacked graph....
+ggplot(df_region_country_gender, aes(y = suicide_per_100k, x = age, fill = sex, label = round(suicide_per_100k, digits = 1))) + 
+  geom_bar(position = "fill", stat = "identity") +
+  scale_y_continuous(labels = scales::percent) +
+  labs(title = "Proportions of suicides that are Male & Female, by all age groups", 
+       x = "Age", 
+       y = "Suicides per 100k",
+       fill = "Sex") + 
+  theme(axis.text.x = element_text(angle = 90))
 
 
