@@ -75,4 +75,33 @@ population_by_country <- suicide_dataset %>%
   summarize(population = sum(as.numeric(population)))
 
 
+# Author: Diwakar Ranjan
+# Email: dr18abc@herts.ac.uk
+# Course: M.Sc. Advanced Computer Science (Full time)
+# University of Hertfordshire
+
+############################################################
+#Task 1 - Suicide rate per 100k over all age groups
+##########################################################
+
+# STEP-1: Calculate global average number of suicides per 100k for all age groups with 30 years of data
+suicide_by_age <- suicide_dataset %>%
+  group_by(age) %>%
+  summarize(n = n(), 
+            suicides = sum(as.numeric(suicides_no)), 
+            population = sum(as.numeric(population)), 
+            suicide_per_100k = (suicides / population) * 100000) %>%
+  arrange(suicide_per_100k)
+
+# Rearranging the x axis by ascending order.............
+suicide_by_age$age <- factor(suicide_by_age$age,
+                             levels = rev(suicide_by_age$age[order(-suicide_by_age$suicide_per_100k)]))
+
+# Results (Graph) to show the Suicide rate per 100k over all age groups using bar plot.......
+ggplot(suicide_by_age, aes(x=age, y=suicide_per_100k, fill = age)) + geom_bar(stat="identity")+ theme_minimal() + theme(axis.text=element_text(size=6)) +labs(title="Suicides per 100k (1985 - 2015)", subtitle = "Age groups for all Countries with 30 years of data") + theme(legend.position = "none") + theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+
+
+
+
 
