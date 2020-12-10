@@ -1,7 +1,5 @@
-# Author: Rahul Soni
-# Email: rs20acs@herts.ac.uk
-# Course: M.Sc. Artificial Intelligence & Robotics (Part time)
-# Intake: October 2020
+# Author: Team 49
+# Members: rs20acs@herts.ac.uk, pj18aan@herts.ac.uk, vs18abb@herts.ac.uk, dr18abc@herts.ac.uk, zm20abu@herts.ac.uk
 # University of Hertfordshire
 
 # References:  
@@ -10,15 +8,9 @@
 # Load libraries
 library(readr) # to load the csv file
 library(tidyverse)
+# This part of the program loads the kaggle suicide dataset and cleaning.
 
-# This part of the program loads the kaggle suicide dataset and applies filters 
-# and continent based on the country column. 
-# This is done using countrycode library that returns continent or region value
-# for a given country.
-# Further details of the library can be found online on the following link
-# https://cran.r-project.org/web/packages/countrycode/countrycode.pdf
-
-## Export Suicide Dataset CSV
+## Import Suicide Dataset CSV
 suicide_dataset <- read.csv("suicide_dataset.csv") ## 27820 observations
 
 ## Ignore year 2016 as there are not enough observations.Not all countries have
@@ -30,7 +22,7 @@ suicide_dataset <- read.csv("suicide_dataset.csv") ## 27820 observations
 suicide_dataset <- suicide_dataset %>%
   filter(year != 2016) ## 27660 observation
 
-## Remove any country with less than 10 years of data. This will result in
+## Remove any country with less than 30 years of data. This will result in
 ## 11076 observations and a total of 30 countries with more than 30 years of data.
 
 suicide_dataset<- suicide_dataset %>%
@@ -74,12 +66,7 @@ population_by_country <- suicide_dataset %>%
   group_by(country, year) %>%
   summarize(population = sum(as.numeric(population)))
 
-
-# Author: Diwakar Ranjan
-# Email: dr18abc@herts.ac.uk
-# Course: M.Sc. Advanced Computer Science (Full time)
-# University of Hertfordshire
-
+pdf("visualization.pdf")
 ############################################################
 #Task 1 - Suicide rate per 100k over all age groups
 ##########################################################
@@ -104,16 +91,11 @@ ggplot(suicide_by_age, aes(x=age, y=suicide_per_100k, fill = age)) +
   theme(axis.text=element_text(size=6)) +
   labs(title="Suicides Per 100k (1985 - 2015)", 
        subtitle = "Age groups for all Countries with 30 years of data",
-       x = "Age", 
+       x = "Age Groups", 
        y = "Suicides Per 100k") + 
   theme(legend.position = "none") + 
   theme(axis.text.x = element_text(angle = 90, hjust = 1))
 
-
-# Author: Vikrant Sharma
-# Email: vs18abb@herts.ac.uk
-# Course: M.Sc. Computer Networking Principles (Full time)
-# University of Hertfordshire
 
 ########################################################################################
 #Task 2 - Suicide rate/100k over all genders, age groups (Stacked graph to show proportion)
@@ -129,13 +111,14 @@ df_agegroup_gender <- suicide_dataset %>%
 ggplot(df_agegroup_gender, aes(y = suicide_per_100k, x = age, fill = sex, label = round(suicide_per_100k, digits = 1))) + 
   geom_bar(position = "fill", stat = "identity") +
   scale_y_continuous(labels = scales::percent) +
-  labs(title = "Proportions of suicides",
+  labs(title = "Proportions of suicides (1985 - 2015)",
        subtitle = "All age groups by gender", 
-       x = "Age", 
+       x = "Age Groups", 
        y = "Suicides Per 100k",
        fill = "Sex") + 
   theme(axis.text.x = element_text(angle = 90)) +
   theme(legend.position = "bottom")
+
 
 ################################################################################################################
 #Task 3 - Suicide rate/100k over all genders, age groups (Stacked graph to show proportion by absolute numbers)
@@ -146,8 +129,11 @@ ggplot(df_agegroup_gender, mapping = aes(x = age, y = suicide_per_100k, fill = s
   geom_bar(stat = "identity") +
   labs(title="Suicides Per 100k (1985 - 2015)",
        subtitle = "All age groups by gender",
-       x = "Age", 
+       x = "Age Groups", 
        y = "Suicides Per 100k",
        fill = "Sex") + 
   theme(axis.text.x = element_text(angle = 90)) +
   theme(legend.position = "bottom")
+
+dev.off()
+
