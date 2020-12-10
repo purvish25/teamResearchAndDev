@@ -63,7 +63,7 @@ suicide_dataset_male <- filter(suicide_dataset, sex == "male") # 5538 observatio
 global_average_male <- (sum(as.numeric(suicide_dataset_male$suicides_no)) / 
                           sum(as.numeric(suicide_dataset_male$population))) * 100000
 
-## Calculate average suicides in male
+## Calculate average suicides in female
 suicide_dataset_female <- filter(suicide_dataset, sex == "female") # 5538 observations
 global_average_female <- (sum(as.numeric(suicide_dataset_male$suicides_no)) / 
                             sum(as.numeric(suicide_dataset_male$population))) * 100000
@@ -111,12 +111,14 @@ ggplot(suicide_by_age, aes(x=age, y=suicide_per_100k, fill = age)) + geom_bar(st
 ######################################################################################################
 
 # STEP-1: Calculate global average number of suicides per 100k for all gender, age groups with 30 years of data
-df_region_country_gender <- suicide_dataset %>%
+df_agegroup_gender <- suicide_dataset %>%
   group_by(age, sex) %>%
   summarize(suicide_per_100k = (sum(as.numeric(suicides_no)) / sum(as.numeric(population))) * 100000)
 
+
+
 # STEP-2: Results (Graph) to show the Suicide rate per 100k over all genders, age groups using Stacked graph....
-ggplot(df_region_country_gender, aes(y = suicide_per_100k, x = age, fill = sex, label = round(suicide_per_100k, digits = 1))) + 
+ggplot(df_agegroup_gender, aes(y = suicide_per_100k, x = age, fill = sex, label = round(suicide_per_100k, digits = 1))) + 
   geom_bar(position = "fill", stat = "identity") +
   scale_y_continuous(labels = scales::percent) +
   labs(title = "Proportions of suicides that are Male & Female, by all age groups", 
@@ -124,5 +126,8 @@ ggplot(df_region_country_gender, aes(y = suicide_per_100k, x = age, fill = sex, 
        y = "Suicides per 100k",
        fill = "Sex") + 
   theme(axis.text.x = element_text(angle = 90))
+
+
+
 
 
