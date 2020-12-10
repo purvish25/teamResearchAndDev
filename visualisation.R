@@ -98,7 +98,16 @@ suicide_by_age$age <- factor(suicide_by_age$age,
                              levels = rev(suicide_by_age$age[order(-suicide_by_age$suicide_per_100k)]))
 
 # STEP-3: Results (Graph) to show the Suicide rate per 100k over all age groups using bar plot.......
-ggplot(suicide_by_age, aes(x=age, y=suicide_per_100k, fill = age)) + geom_bar(stat="identity")+ theme_minimal() + theme(axis.text=element_text(size=6)) +labs(title="Suicides per 100k (1985 - 2015)", subtitle = "Age groups for all Countries with 30 years of data") + theme(legend.position = "none") + theme(axis.text.x = element_text(angle = 90, hjust = 1))
+ggplot(suicide_by_age, aes(x=age, y=suicide_per_100k, fill = age)) + 
+  geom_bar(stat="identity")+ 
+  theme_minimal() + 
+  theme(axis.text=element_text(size=6)) +
+  labs(title="Suicides Per 100k (1985 - 2015)", 
+       subtitle = "Age groups for all Countries with 30 years of data",
+       x = "Age", 
+       y = "Suicides Per 100k") + 
+  theme(legend.position = "none") + 
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
 
 
 # Author: Vikrant Sharma
@@ -116,18 +125,29 @@ df_agegroup_gender <- suicide_dataset %>%
   summarize(suicide_per_100k = (sum(as.numeric(suicides_no)) / sum(as.numeric(population))) * 100000)
 
 
-
 # STEP-2: Results (Graph) to show the Suicide rate per 100k over all genders, age groups using Stacked graph....
 ggplot(df_agegroup_gender, aes(y = suicide_per_100k, x = age, fill = sex, label = round(suicide_per_100k, digits = 1))) + 
   geom_bar(position = "fill", stat = "identity") +
   scale_y_continuous(labels = scales::percent) +
-  labs(title = "Proportions of suicides that are Male & Female, by all age groups", 
+  labs(title = "Proportions of suicides",
+       subtitle = "All age groups by gender", 
        x = "Age", 
-       y = "Suicides per 100k",
+       y = "Suicides Per 100k",
        fill = "Sex") + 
-  theme(axis.text.x = element_text(angle = 90))
+  theme(axis.text.x = element_text(angle = 90)) +
+  theme(legend.position = "bottom")
 
+################################################################################################################
+#Task 3 - Suicide rate/100k over all genders, age groups (Stacked graph to show proportion by absolute numbers)
+################################################################################################################
 
-
-
-
+# STEP-1: Results (Graph) to show the Suicide rate per 100k over all genders, age groups using Stacked graph....
+ggplot(df_agegroup_gender, mapping = aes(x = age, y = suicide_per_100k, fill = sex)) + 
+  geom_bar(stat = "identity") +
+  labs(title="Suicides Per 100k (1985 - 2015)",
+       subtitle = "All age groups by gender",
+       x = "Age", 
+       y = "Suicides Per 100k",
+       fill = "Sex") + 
+  theme(axis.text.x = element_text(angle = 90)) +
+  theme(legend.position = "bottom")
