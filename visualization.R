@@ -66,7 +66,7 @@ population_by_country <- suicide_dataset %>%
   group_by(country, year) %>%
   summarize(population = sum(as.numeric(population)))
 
-pdf("visualization.pdf")
+
 ############################################################
 #Task 1 - Suicide rate per 100k over all age groups
 ##########################################################
@@ -85,7 +85,7 @@ suicide_by_age$age <- factor(suicide_by_age$age,
                              levels = rev(suicide_by_age$age[order(-suicide_by_age$suicide_per_100k)]))
 
 ## STEP-3: Results (Graph) to show the Suicide rate per 100k over all age groups using bar plot.......
-ggplot(suicide_by_age, aes(x=age, y=suicide_per_100k, fill = age)) + 
+task1 <- ggplot(suicide_by_age, aes(x=age, y=suicide_per_100k, fill = age)) + 
   geom_bar(stat="identity")+ 
   theme_minimal() + 
   theme(axis.text=element_text(size=6)) +
@@ -106,7 +106,7 @@ df_agegroup_gender <- suicide_dataset %>%
   summarize(suicide_per_100k = (sum(as.numeric(suicides_no)) / sum(as.numeric(population))) * 100000)
 
 ## STEP-2: Results (Graph) to show the Suicide rate per 100k over all genders, age groups using Stacked graph....
-ggplot(df_agegroup_gender, aes(y = suicide_per_100k, x = age, fill = sex, label = round(suicide_per_100k, digits = 1))) + 
+task2 <- ggplot(df_agegroup_gender, aes(y = suicide_per_100k, x = age, fill = sex, label = round(suicide_per_100k, digits = 1))) + 
   geom_bar(position = "fill", stat = "identity") +
   scale_y_continuous(labels = scales::percent) +
   labs(title = "Proportions of suicides (1985 - 2015)",
@@ -122,7 +122,7 @@ ggplot(df_agegroup_gender, aes(y = suicide_per_100k, x = age, fill = sex, label 
 ################################################################################################################
 
 ## STEP-1: Results (Graph) to show the Suicide rate per 100k over all genders, age groups using Stacked graph....
-ggplot(df_agegroup_gender, mapping = aes(x = age, y = suicide_per_100k, fill = sex)) + 
+task3 <- ggplot(df_agegroup_gender, mapping = aes(x = age, y = suicide_per_100k, fill = sex)) + 
   geom_bar(stat = "identity") +
   labs(title="Suicides Per 100k (1985 - 2015)",
        subtitle = "All age groups by gender",
@@ -131,6 +131,17 @@ ggplot(df_agegroup_gender, mapping = aes(x = age, y = suicide_per_100k, fill = s
        fill = "Sex") + 
   theme(axis.text.x = element_text(angle = 90)) +
   theme(legend.position = "bottom")
+
+
+################################################################################################################
+#Task 4 - Collecting all the plots and putting then in a visualization.pdf file
+################################################################################################################
+
+pdf("visualization.pdf")
+
+print(task1)
+print(task2)
+print(task3)
 
 dev.off()
 
