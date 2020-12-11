@@ -37,6 +37,10 @@ names(suicide_dataset)[9] <- "HDI4Year"
 names(suicide_dataset)[10] <- "GDP4Year"
 names(suicide_dataset)[11] <- "GDPPerCapita"
 
+## Update 5-14 years data with 05-14 years as it causes issues in plotting
+suicide_dataset$age[suicide_dataset$age == "5-14 years"] <- "05-14 years"
+#View(suicide_dataset)
+
 ## Remove GDP and HDI columns as HDI has very few value and we are not interested
 ## in GDP data
 suicide_dataset <- suicide_dataset %>% select(-HDI4Year, 
