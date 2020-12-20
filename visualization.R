@@ -137,25 +137,6 @@ task3 <- ggplot(df_agegroup_gender, mapping = aes(x = age, y = suicide_per_100k,
   theme(legend.position = "bottom")
 
 ################################################################################
-## Task 5 - Suicides rates/100k trends over the years
-################################################################################
-task5 <- suicide_dataset %>%
-  group_by(year) %>%
-  summarize(population = sum(population), 
-            suicides = sum(suicides_no), 
-            suicides_per_100k = (suicides / population) * 100000) %>%
-  
-  ggplot(aes(x = year, y = suicides_per_100k)) + 
-  geom_line(col = "#0072B2", size = 1) + 
-  geom_point(col = "#0072B2", size = 2) + 
-  geom_hline(yintercept = global_average, linetype = 2, color = "#000000", size = 1) +
-  labs(title = "Global Suicides (per 100k)",
-       subtitle = "Trend over time, 1985 - 2015.",
-       x = "Year", 
-       y = "Suicides per 100k") + 
-  scale_x_continuous(breaks = seq(1985, 2015, 2)) 
-
-################################################################################
 ## Task 6 - Suicides rates/100k trends for all age groups every 5 years
 ################################################################################
 top_20percent_suicides <- suicide_dataset %>%
@@ -194,7 +175,6 @@ pdf("visualization.pdf")
 print(task1)
 print(task2)
 print(task3)
-print(task5)
 print(task6)
 
 dev.off()
