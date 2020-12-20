@@ -39,6 +39,8 @@ names(suicide_dataset)[11] <- "GDPPerCapita"
 
 ## Update 5-14 years data with 05-14 years as it causes issues in plotting
 suicide_dataset$age[suicide_dataset$age == "5-14 years"] <- "05-14 years"
+suicide_dataset$sex[suicide_dataset$sex == "male"] <- "Male"
+suicide_dataset$sex[suicide_dataset$sex == "female"] <- "Female"
 #View(suicide_dataset)
 
 ## Remove GDP and HDI columns as HDI has very few value and we are not interested
@@ -151,8 +153,6 @@ top_20percent_suicides$time <- ifelse(top_20percent_suicides$year <= 1990, "1985
                                                            ifelse(top_20percent_suicides$year <= 2010, "2006 - 2010",
                                                                   "2011 - 2015")))))
 
-View(top_20percent_suicides)
-
 task6 <- ggplot(top_20percent_suicides, aes(x = age, fill = sex)) + 
   geom_bar() + 
   labs(title = "20% most significant suicides/100k", 
@@ -164,7 +164,6 @@ task6 <- ggplot(top_20percent_suicides, aes(x = age, fill = sex)) +
   scale_y_continuous(breaks = seq(0, 300, 25)) + 
   theme(legend.position = "bottom") + 
   theme(axis.text.x = element_text(angle = 90, hjust = 1))
-
 
 ################################################################################################################
 #Task 4 - Collecting all the plots and putting then in a visualization.pdf file
