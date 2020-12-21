@@ -165,6 +165,67 @@ task6 <- ggplot(top_20percent_suicides, aes(x = age, fill = sex)) +
   theme(legend.position = "bottom") + 
   theme(axis.text.x = element_text(angle = 90, hjust = 1))
 
+################################################################################
+## Task 7 - Plot Suicide rate/100k "Trend" for each sex and age group
+################################################################################
+## Dataframe for all female demographic
+female_age_group_trend <- suicide_dataset %>%
+  filter(sex == "Female") %>%
+  group_by(year, age) %>%
+  summarize(suicide_per_100k = (sum(as.numeric(suicides_no)) / sum(as.numeric(population))) * 100000) 
+
+## Dataframe for all male demographic
+male_age_group_trend <- suicide_dataset %>%
+  filter(sex == "Male") %>%
+  group_by(year, age) %>%
+  summarize(suicide_per_100k = (sum(as.numeric(suicides_no)) / sum(as.numeric(population))) * 100000) 
+
+## Dataframe for all demographics
+age_sex_trend <- suicide_dataset %>%
+  group_by(year, age, sex) %>%
+  summarize(suicide_per_100k = (sum(as.numeric(suicides_no)) / sum(as.numeric(population))) * 100000) 
+
+## Trend plot by all age groups, female
+task7a <- ggplot(female_age_group_trend, aes(x = year, y = suicide_per_100k, col = age)) + 
+  facet_grid(age ~ ., scales = "free_y") + 
+  geom_line() + 
+  geom_point() + 
+  labs(title = "Trends Over Time",
+       subtitle = "All Age Groups, Female",
+       x = "Year", 
+       y = "Suicides per 100k", 
+       color = "Age") + 
+  theme(legend.position = "none") + 
+  scale_x_continuous(breaks = seq(1985, 2015, 2), minor_breaks = F) 
+
+## Trend plot by all age groups, male
+task7b <- ggplot(male_age_group_trend, aes(x = year, y = suicide_per_100k, col = age)) + 
+  facet_grid(age ~ ., scales = "free_y") + 
+  geom_line() + 
+  geom_point() + 
+  labs(title = "Trends Over Time",
+       subtitle = "All Age Groups, Male",
+       x = "Year", 
+       y = "Suicides per 100k", 
+       color = "Age") + 
+  theme(legend.position = "none") + 
+  scale_x_continuous(breaks = seq(1985, 2015, 2), minor_breaks = F) 
+
+## Trend plot by all age groups, genders (on same scale)
+task7c <- ggplot(age_sex_trend, aes(x = year, y = suicide_per_100k, col = age)) + 
+  #facet_grid(age ~ ., scales = "free_y") + 
+  geom_line() + 
+  geom_point() + 
+  labs(title = "Trends Over Time",
+       subtitle = "All Age Groups & Sex (Same Scale)",
+       x = "Year", 
+       y = "Suicides per 100k", 
+       color = "Age") + 
+  theme(legend.position = "none") + 
+  scale_x_continuous(breaks = seq(1985, 2015, 2), minor_breaks = F) +
+  facet_grid(age~sex) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
 ################################################################################################################
 #Task 4 - Collecting all the plots and putting then in a visualization.pdf file
 ################################################################################################################
@@ -175,6 +236,7 @@ print(task1)
 print(task2)
 print(task3)
 print(task6)
-
+print(task7a)
+print(task7b)
+print(task7c)
 dev.off()
-
