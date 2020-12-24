@@ -56,13 +56,13 @@ suicide_dataset <- suicide_dataset %>% select(-HDI4Year,
 global_average <- (sum(as.numeric(suicide_dataset$suicides_no)) / 
                   sum(as.numeric(suicide_dataset$population))) * 100000
 
-## Calculate average suicides in male
-suicide_dataset_male <- filter(suicide_dataset, sex == "male") # 5538 observations
+## Calculate average suicides in Male
+suicide_dataset_male <- filter(suicide_dataset, sex == "Male") # 5538 observations
 global_average_male <- (sum(as.numeric(suicide_dataset_male$suicides_no)) / 
                           sum(as.numeric(suicide_dataset_male$population))) * 100000
 
-## Calculate average suicides in female
-suicide_dataset_female <- filter(suicide_dataset, sex == "female") # 5538 observations
+## Calculate average suicides in Female
+suicide_dataset_female <- filter(suicide_dataset, sex == "Female") # 5538 observations
 global_average_female <- (sum(as.numeric(suicide_dataset_female$suicides_no)) / 
                             sum(as.numeric(suicide_dataset_female$population))) * 100000
 
