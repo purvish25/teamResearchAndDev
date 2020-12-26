@@ -141,6 +141,7 @@ task3 <- ggplot(df_agegroup_gender, mapping = aes(x = age, y = suicide_per_100k,
 ################################################################################
 ## Task 5 - Proportions of suicides that are Male & Female, by Country 
 ################################################################################
+
 ## Dataframe for all female demographic
 female_age_group_country <- suicide_dataset %>%
   filter(sex == "Female") %>%
@@ -153,8 +154,13 @@ male_age_group_country <- suicide_dataset %>%
   group_by(country, age) %>%
   summarize(suicide_per_100k = (sum(as.numeric(suicides_no)) / sum(as.numeric(population))) * 100000)
 
+## Dataframe for all demographics
+age_sex_country <- suicide_dataset %>%
+  group_by(country, age, sex) %>%
+  summarize(suicide_per_100k = (sum(as.numeric(suicides_no)) / sum(as.numeric(population))) * 100000) 
+
 ## Trend plot by all age groups, female 
-ggplot(female_age_group_country, aes(x = country, y = suicide_per_100k, col = age, group = 1)) + 
+task5a <- ggplot(female_age_group_country, aes(x = country, y = suicide_per_100k, col = age, group = 1)) + 
   facet_grid(age ~ ., scales = "free_y") + 
   geom_line() + 
   geom_point() + 
@@ -167,7 +173,7 @@ ggplot(female_age_group_country, aes(x = country, y = suicide_per_100k, col = ag
   theme(axis.text.x = element_text(angle = 90, hjust = 1))
 
 ## Trend plot by all age groups, female 
-ggplot(male_age_group_country, aes(x = country, y = suicide_per_100k, col = age, group = 1)) + 
+task5b <- ggplot(male_age_group_country, aes(x = country, y = suicide_per_100k, col = age, group = 1)) + 
   facet_grid(age ~ ., scales = "free_y") + 
   geom_line() + 
   geom_point() + 
@@ -177,6 +183,20 @@ ggplot(male_age_group_country, aes(x = country, y = suicide_per_100k, col = age,
        y = "Suicides per 100k", 
        color = "Age") + 
   theme(legend.position = "none") + 
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+## Trend plot by all age groups, genders (on same scale)
+task5c <- ggplot(age_sex_country, aes(x = country, y = suicide_per_100k, col = age,group = 1)) + 
+  #facet_grid(age ~ ., scales = "free_y") + 
+  geom_line() + 
+  geom_point() + 
+  labs(title = "Suicides Per 100k by Country",
+       subtitle = "All Age Groups & Sex (Same Scale)",
+       x = "Country", 
+       y = "Suicides per 100k", 
+       color = "Age") + 
+  theme(legend.position = "none") +
+  facet_grid(age~sex) +
   theme(axis.text.x = element_text(angle = 90, hjust = 1))
 
 ################################################################################
@@ -271,13 +291,16 @@ task7c <- ggplot(age_sex_trend, aes(x = year, y = suicide_per_100k, col = age)) 
 #Task 4 - Collecting all the plots and putting then in a visualization.pdf file
 ################################################################################################################
 
-# pdf("visualization.pdf")
-# 
-# print(task1)
-# print(task2)
-# print(task3)
-# print(task6)
-# print(task7a)
-# print(task7b)
-# print(task7c)
-# dev.off()
+pdf("visualization.pdf")
+
+print(task1)
+print(task2)
+print(task3)
+print(task5a)
+print(task5b)
+print(task5c)
+print(task6)
+print(task7a)
+print(task7b)
+print(task7c)
+dev.off()
