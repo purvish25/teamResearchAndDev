@@ -147,19 +147,32 @@ female_age_group_country <- suicide_dataset %>%
   group_by(country, age) %>%
   summarize(suicide_per_100k = (sum(as.numeric(suicides_no)) / sum(as.numeric(population))) * 100000) 
 
-# ## Dataframe for all male demographic
-# male_age_group_country <- suicide_dataset %>%
-#   filter(sex == "Male") %>%
-#   group_by(country, age) %>%
-#   summarize(suicide_per_100k = (sum(as.numeric(suicides_no)) / sum(as.numeric(population))) * 100000) 
+## Dataframe for all male demographic
+male_age_group_country <- suicide_dataset %>%
+  filter(sex == "Male") %>%
+  group_by(country, age) %>%
+  summarize(suicide_per_100k = (sum(as.numeric(suicides_no)) / sum(as.numeric(population))) * 100000)
 
 ## Trend plot by all age groups, female 
 ggplot(female_age_group_country, aes(x = country, y = suicide_per_100k, col = age, group = 1)) + 
   facet_grid(age ~ ., scales = "free_y") + 
   geom_line() + 
   geom_point() + 
-  labs(title = "Trends Over Time by Country",
+  labs(title = "Suicides Per 100k by Country",
        subtitle = "All Age Groups, Female",
+       x = "Country", 
+       y = "Suicides per 100k", 
+       color = "Age") + 
+  theme(legend.position = "none") + 
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+## Trend plot by all age groups, female 
+ggplot(male_age_group_country, aes(x = country, y = suicide_per_100k, col = age, group = 1)) + 
+  facet_grid(age ~ ., scales = "free_y") + 
+  geom_line() + 
+  geom_point() + 
+  labs(title = "Suicides Per 100k by Country",
+       subtitle = "All Age Groups, Male",
        x = "Country", 
        y = "Suicides per 100k", 
        color = "Age") + 
