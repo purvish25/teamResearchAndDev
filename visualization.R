@@ -56,13 +56,13 @@ suicide_dataset <- suicide_dataset %>% select(-HDI4Year,
 global_average <- (sum(as.numeric(suicide_dataset$suicides_no)) / 
                   sum(as.numeric(suicide_dataset$population))) * 100000
 
-## Calculate average suicides in male
-suicide_dataset_male <- filter(suicide_dataset, sex == "male") # 5538 observations
+## Calculate average suicides in Male
+suicide_dataset_male <- filter(suicide_dataset, sex == "Male") # 5538 observations
 global_average_male <- (sum(as.numeric(suicide_dataset_male$suicides_no)) / 
                           sum(as.numeric(suicide_dataset_male$population))) * 100000
 
-## Calculate average suicides in female
-suicide_dataset_female <- filter(suicide_dataset, sex == "female") # 5538 observations
+## Calculate average suicides in Female
+suicide_dataset_female <- filter(suicide_dataset, sex == "Female") # 5538 observations
 global_average_female <- (sum(as.numeric(suicide_dataset_female$suicides_no)) / 
                             sum(as.numeric(suicide_dataset_female$population))) * 100000
 
@@ -137,6 +137,67 @@ task3 <- ggplot(df_agegroup_gender, mapping = aes(x = age, y = suicide_per_100k,
        fill = "Sex") + 
   theme(axis.text.x = element_text(angle = 90)) +
   theme(legend.position = "bottom")
+
+################################################################################
+## Task 5 - Proportions of suicides that are Male & Female, by Country 
+################################################################################
+
+## Dataframe for all female demographic
+female_age_group_country <- suicide_dataset %>%
+  filter(sex == "Female") %>%
+  group_by(country, age) %>%
+  summarize(suicide_per_100k = (sum(as.numeric(suicides_no)) / sum(as.numeric(population))) * 100000) 
+
+## Dataframe for all male demographic
+male_age_group_country <- suicide_dataset %>%
+  filter(sex == "Male") %>%
+  group_by(country, age) %>%
+  summarize(suicide_per_100k = (sum(as.numeric(suicides_no)) / sum(as.numeric(population))) * 100000)
+
+## Dataframe for all demographics
+age_sex_country <- suicide_dataset %>%
+  group_by(country, age, sex) %>%
+  summarize(suicide_per_100k = (sum(as.numeric(suicides_no)) / sum(as.numeric(population))) * 100000) 
+
+## Trend plot by all age groups, female 
+task5a <- ggplot(female_age_group_country, aes(x = country, y = suicide_per_100k, col = age, group = 1)) + 
+  facet_grid(age ~ ., scales = "free_y") + 
+  geom_line() + 
+  geom_point() + 
+  labs(title = "Suicides Per 100k by Country",
+       subtitle = "All Age Groups, Female",
+       x = "Country", 
+       y = "Suicides per 100k", 
+       color = "Age") + 
+  theme(legend.position = "none") + 
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+## Trend plot by all age groups, female 
+task5b <- ggplot(male_age_group_country, aes(x = country, y = suicide_per_100k, col = age, group = 1)) + 
+  facet_grid(age ~ ., scales = "free_y") + 
+  geom_line() + 
+  geom_point() + 
+  labs(title = "Suicides Per 100k by Country",
+       subtitle = "All Age Groups, Male",
+       x = "Country", 
+       y = "Suicides per 100k", 
+       color = "Age") + 
+  theme(legend.position = "none") + 
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+## Trend plot by all age groups, genders (on same scale)
+task5c <- ggplot(age_sex_country, aes(x = country, y = suicide_per_100k, col = age,group = 1)) + 
+  #facet_grid(age ~ ., scales = "free_y") + 
+  geom_line() + 
+  geom_point() + 
+  labs(title = "Suicides Per 100k by Country",
+       subtitle = "All Age Groups & Sex (Same Scale)",
+       x = "Country", 
+       y = "Suicides per 100k", 
+       color = "Age") + 
+  theme(legend.position = "none") +
+  facet_grid(age~sex) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
 
 ################################################################################
 ## Task 6 - Suicides rates/100k trends for all age groups every 5 years
@@ -235,6 +296,9 @@ pdf("visualization.pdf")
 print(task1)
 print(task2)
 print(task3)
+print(task5a)
+print(task5b)
+print(task5c)
 print(task6)
 print(task7a)
 print(task7b)
