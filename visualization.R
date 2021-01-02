@@ -12,7 +12,7 @@ library(tidyverse)
 
 ## Import Suicide Dataset CSV
 suicide_dataset <- read.csv("suicide_dataset.csv") ## 27820 observations
-
+raw_data <- suicide_dataset
 ## Ignore year 2016 as there are not enough observations.Not all countries have
 ## suicides reported for the year 2016
 ## Count rows matching year 2016. 160 rows will be removed as part of this step
