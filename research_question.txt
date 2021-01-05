@@ -3,11 +3,11 @@ Group: group 49
 Question
 ========
 
-RQ: Is there a difference in the suicide rate/100k amongst age groups?
+RQ: Is there a difference in proportions of suicide rate/100k amongst age groups?
 
-Null hypothesis: There is no difference in the suicide rate amongst age groups.
+Null hypothesis: There is no difference in the suicide rate/100k amongst age groups.
 
-Alternative hypothesis: There is a difference in the suicide rate amongst age groups.
+Alternative hypothesis: There is a difference in the suicide rate/100k amongst age groups.
 
 
 Dataset
