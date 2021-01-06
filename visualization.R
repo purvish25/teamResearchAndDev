@@ -172,7 +172,7 @@ task5a <- ggplot(female_age_group_country, aes(x = country, y = suicide_per_100k
   theme(legend.position = "none") + 
   theme(axis.text.x = element_text(angle = 90, hjust = 1))
 
-## Trend plot by all age groups, female 
+## Trend plot by all age groups, male 
 task5b <- ggplot(male_age_group_country, aes(x = country, y = suicide_per_100k, col = age, group = 1)) + 
   facet_grid(age ~ ., scales = "free_y") + 
   geom_line() + 
@@ -292,7 +292,6 @@ task7c <- ggplot(age_sex_trend, aes(x = year, y = suicide_per_100k, col = age)) 
 ################################################################################################################
 
 pdf("visualization.pdf")
-
 print(task1)
 print(task2)
 print(task3)
@@ -304,3 +303,40 @@ print(task7a)
 print(task7b)
 print(task7c)
 dev.off()
+
+
+#####
+## Create png for Report
+#####
+png ("Suicide rate per 100k for all age groups.png")
+print(task1)
+dev.off()
+png ("Suicide rate per 100k over all genders for all age groups (Stacked graph to show proportion).png")
+print(task2)
+dev.off()
+png ("Suicide rate per 100k over all genders for all age groups (Stacked graph to show proportion by absolute numbers).png")
+print(task3)
+dev.off()
+png ("Country plot by all age groups for females.png")
+print(task5a)
+dev.off()
+png ("Country plot by all age groups for males.png")
+print(task5b)
+dev.off()
+png ("Country plot by all age groups for all genders (on same scale).png")
+print(task5c)
+dev.off()
+png ("Suicides rates per 100k trends for all age groups every 5 years")
+print(task6)
+dev.off()
+png ("Trend plot by all age groups for females.png")
+print(task7a)
+dev.off()
+png ("Trend plot by all age groups for males.png")
+print(task7b)
+dev.off()
+png ("Trend plot by all age groups for all genders (on same scale).png")
+print(task7c)
+dev.off()
+
+
