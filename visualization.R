@@ -305,9 +305,9 @@ print(task7c)
 dev.off()
 
 
-#####
-## Create png for Report
-#####
+################################################################################
+## Create png for Final Report
+################################################################################
 png ("Suicide rate per 100k for all age groups.png")
 print(task1)
 dev.off()
