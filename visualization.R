@@ -287,6 +287,25 @@ task7c <- ggplot(age_sex_trend, aes(x = year, y = suicide_per_100k, col = age)) 
   facet_grid(age~sex) +
   theme(axis.text.x = element_text(angle = 90, hjust = 1))
 
+################################################################################
+## Task 9 - Suicides rates per 100k trends over the years
+################################################################################
+suicide_dataset_overyear <- suicide_dataset %>%
+  group_by(year) %>%
+  summarize(population = sum(population), 
+            suicides = sum(suicides_no), 
+            suicides_per_100k = (suicides / population) * 100000)
+  
+task9 <- ggplot(suicide_dataset_overyear, aes(x = year, y = suicides_per_100k)) + 
+  geom_line(col = "#0072B2", size = 1) + 
+  geom_point(col = "#0072B2", size = 2) + 
+  geom_hline(yintercept = global_average, linetype = 2, color = "#000000", size = 1) +
+  labs(title = "Global Suicides (per 100k)",
+       subtitle = "Trend over time, 1985 - 2015.",
+       x = "Year", 
+       y = "Suicides per 100k") + 
+  scale_x_continuous(breaks = seq(1985, 2015, 2))
+
 ################################################################################################################
 #Task 4 - Collecting all the plots and putting then in a visualization.pdf file
 ################################################################################################################
@@ -302,6 +321,7 @@ print(task6)
 print(task7a)
 print(task7b)
 print(task7c)
+print(task9)
 dev.off()
 
 
