@@ -74,20 +74,6 @@ datafor30country$hk <- ((as.numeric(as.character(datafor30country$total_populati
 
 write.csv(datafor30country,"datafor30country.csv", row.names = TRUE)
 
-#main_data <- read.csv("main_data.csv")
-#colnames(main_data)<-c("","05-14 years","15-24 years","25-34 years","35-54 years","55-74 years","75+ years")
+prop.test(datafor30country$total_suicides,datafor30country$total_population)
 
-#main_matrix <- data.matrix(main_data)
-temp <- prop.test(datafor30country$total_suicides,datafor30country$total_population)
-
-fulldata <- aggregate(cbind(raw_data$suicides_no,raw_data$population) ~ raw_data$age, FUN=sum)
-colnames(fulldata)<-c("age_group","total_suicides","total_population")
-fulldata$per100k <- ((as.numeric(as.character(fulldata$total_suicides)))*100000)/ as.numeric(as.character(fulldata$total_population))
-fulldata$hk <- ((as.numeric(as.character(fulldata$total_population)))/100000)
-
-write.csv(fulldata,"fulldata.csv", row.names = TRUE)
-prop.test(fulldata$total_suicides,fulldata$total_population)
-
-#chisq.test(dftest$total_suicides)
-#main_matrix <- main_matrix[,-1] # delete column 2
 
