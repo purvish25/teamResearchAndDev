@@ -102,9 +102,9 @@ task1 <- ggplot(suicide_by_age, aes(x=age, y=suicide_per_100k, fill = age)) +
   theme(legend.position = "none") + 
   theme(axis.text.x = element_text(angle = 90, hjust = 1))
 
-############################################################
+################################################################################
 #Task 1(A) - Suicide rate per 100k over all age groups (Pie chart)
-##########################################################
+################################################################################
 
 data <- suicide_by_age %>% 
   arrange(desc(age)) %>%
@@ -119,7 +119,7 @@ task1A <- ggplot(data, aes(x="", y=prop, fill=`Age Group`)) +
   coord_polar("y", start=0) +
   theme_void() + 
   labs(title="Suicides Per 100k (1985 - 2015)", 
-       subtitle = "Age groups for all Countries with 30 years of data") +
+       subtitle = "% split of suicides per 100k amongst all Age groups, all Countries") +
   theme(legend.position="bottom") +
   geom_text(aes(y = ypos, label = prop, size=6)) +
   scale_fill_brewer(palette="Blues")
