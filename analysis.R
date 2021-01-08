@@ -43,45 +43,29 @@ suicide_dataset <- suicide_dataset %>% select(-HDI4Year,
                                               -generation,
                                               -n) #this column is added as part of filtering number of years of data
 
-## Calculate global average number of suicides considering countries with  
-## 30 years of data  
-global_average <- (sum(as.numeric(suicide_dataset$suicides_no)) / 
-                     sum(as.numeric(suicide_dataset$population))) * 100000
+################################################################################
+## Preparing a dataframe by aggregating columns for chi-squared test 
+################################################################################
 
-## Calculate average suicides in Male
-suicide_dataset_male <- filter(suicide_dataset, sex == "Male") # 5538 observations
-global_average_male <- (sum(as.numeric(suicide_dataset_male$suicides_no)) / 
-                          sum(as.numeric(suicide_dataset_male$population))) * 100000
-
-## Calculate average suicides in Female
-suicide_dataset_female <- filter(suicide_dataset, sex == "Female") # 5538 observations
-global_average_female <- (sum(as.numeric(suicide_dataset_female$suicides_no)) / 
-                            sum(as.numeric(suicide_dataset_female$population))) * 100000
-
-## What is the population for a country by year? This question needs to be answered
-## as the popoulation column original dataset is for country-year-sex-age combination
-population_by_country <- suicide_dataset %>%
-  group_by(country, year) %>%
-  summarize(population = sum(as.numeric(population)))
-
-#combined_data <- with(suicide_dataset, aggregate(list(population=population), list(x = tolower(sex)), sum))
-#dftest <- aggregate(cbind(suicide_dataset$SuicidePer100k) ~ suicide_dataset$age+suicide_dataset$country, FUN=sum)
 datafor30country <- aggregate(cbind(suicide_dataset$suicides_no,suicide_dataset$population) ~ suicide_dataset$age
                               , FUN=sum)
 colnames(datafor30country)<-c("age_group","total_suicides","total_population")
-datafor30country$per100k <- ((as.numeric(as.character(datafor30country$total_suicides)))*100000)/ as.numeric(as.character(datafor30country$total_population))
-datafor30country$hk <- ((as.numeric(as.character(datafor30country$total_population)))/100000)
 
-write.csv(datafor30country,"datafor30country.csv", row.names = TRUE)
+datafor30country$per100k <- (datafor30country$total_suicides*100000)/ datafor30country$total_population
+datafor30country$hk <- (datafor30country$total_population/100000)
 
 prop.test(datafor30country$total_suicides,datafor30country$total_population)
 
+################################################################################
+## Preparing a raw dataframe by aggregating columns for chi-squared test
+################################################################################
+
 fulldata <- aggregate(cbind(raw_data$suicides_no,raw_data$population) ~ raw_data$age, FUN=sum)
 colnames(fulldata)<-c("age_group","total_suicides","total_population")
-fulldata$per100k <- ((as.numeric(as.character(fulldata$total_suicides)))*100000)/ as.numeric(as.character(fulldata$total_population))
-fulldata$hk <- ((as.numeric(as.character(fulldata$total_population)))/100000)
 
-write.csv(fulldata,"fulldata.csv", row.names = TRUE)
+fulldata$per100k <- (fulldata$total_suicides*100000)/fulldata$total_population
+fulldata$hk <- (fulldata$total_population/100000)
+
 prop.test(fulldata$total_suicides,fulldata$total_population)
 
 
