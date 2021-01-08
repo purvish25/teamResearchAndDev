@@ -102,6 +102,28 @@ task1 <- ggplot(suicide_by_age, aes(x=age, y=suicide_per_100k, fill = age)) +
   theme(legend.position = "none") + 
   theme(axis.text.x = element_text(angle = 90, hjust = 1))
 
+############################################################
+#Task 1(A) - Suicide rate per 100k over all age groups (Pie chart)
+##########################################################
+
+data <- suicide_by_age %>% 
+  arrange(desc(age)) %>%
+  mutate(prop = round(suicide_per_100k / sum(suicide_by_age$suicide_per_100k) * 100), 1) %>%
+  mutate(ypos = cumsum(prop)- 0.5*prop )
+
+names(data)[1] <- "Age Group"
+
+# Basic piechart
+task1A <- ggplot(data, aes(x="", y=prop, fill=`Age Group`)) +
+  geom_bar(stat="identity", width=1, color="white") +
+  coord_polar("y", start=0) +
+  theme_void() + 
+  labs(title="Suicides Per 100k (1985 - 2015)", 
+       subtitle = "Age groups for all Countries with 30 years of data") +
+  theme(legend.position="bottom") +
+  geom_text(aes(y = ypos, label = prop, size=6)) +
+  scale_fill_brewer(palette="Blues")
+
 ########################################################################################
 #Task 2 - Suicide rate/100k over all genders, age groups (Stacked graph to show proportion)
 ######################################################################################################
@@ -312,6 +334,7 @@ task9 <- ggplot(suicide_dataset_overyear, aes(x = year, y = suicides_per_100k)) 
 
 pdf("visualization.pdf")
 print(task1)
+print(task1A)
 print(task2)
 print(task3)
 print(task5a)
@@ -330,6 +353,9 @@ dev.off()
 ################################################################################
 png ("Suicide rate per 100k for all age groups.png")
 print(task1)
+dev.off()
+png ("Suicide rate per 100k for all age groups pie chart.png")
+print(task1A)
 dev.off()
 png ("Suicide rate per 100k over all genders for all age groups (Stacked graph to show proportion).png")
 print(task2)
