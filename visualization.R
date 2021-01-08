@@ -161,63 +161,29 @@ task3 <- ggplot(df_agegroup_gender, mapping = aes(x = age, y = suicide_per_100k,
   theme(legend.position = "bottom")
 
 ################################################################################
-## Task 5 - Proportions of suicides that are Male & Female, by Country 
+## Task 5 - Proportions of suicide rate per 100k by Country for all age groups
 ################################################################################
 
-## Dataframe for all female demographic
-female_age_group_country <- suicide_dataset %>%
-  filter(sex == "Female") %>%
+## STEP-1: Calculate global average number of suicides per 100k for all age groups with 30 years of data
+suicide_by_country_age <- suicide_dataset %>%
   group_by(country, age) %>%
-  summarize(suicide_per_100k = (sum(as.numeric(suicides_no)) / sum(as.numeric(population))) * 100000) 
+  summarize(n = n(), 
+            suicides = sum(as.numeric(suicides_no)), 
+            population = sum(as.numeric(population)), 
+            suicide_per_100k = (suicides / population) * 100000) %>%
+  arrange(suicide_per_100k)
 
-## Dataframe for all male demographic
-male_age_group_country <- suicide_dataset %>%
-  filter(sex == "Male") %>%
-  group_by(country, age) %>%
-  summarize(suicide_per_100k = (sum(as.numeric(suicides_no)) / sum(as.numeric(population))) * 100000)
-
-## Dataframe for all demographics
-age_country <- suicide_dataset %>%
-  group_by(country, age) %>%
-  summarize(suicide_per_100k = (sum(as.numeric(suicides_no)) / sum(as.numeric(population))) * 100000) 
-
-## Country by all age groups, female 
-task5a <- ggplot(female_age_group_country, aes(x = country, y = suicide_per_100k, col = age, group = 1)) + 
-  facet_grid(age ~ ., scales = "free_y") + 
-  geom_line() + 
-  geom_point() + 
-  labs(title = "Suicides Per 100k by Country",
-       subtitle = "All Age Groups, Female",
-       x = "Country", 
-       y = "Suicides per 100k", 
-       color = "Age") + 
-  theme(legend.position = "none") + 
-  theme(axis.text.x = element_text(angle = 90, hjust = 1))
-
-## Country all age groups, male 
-task5b <- ggplot(male_age_group_country, aes(x = country, y = suicide_per_100k, col = age, group = 1)) + 
-  facet_grid(age ~ ., scales = "free_y") + 
-  geom_line() + 
-  geom_point() + 
-  labs(title = "Suicides Per 100k by Country",
-       subtitle = "All Age Groups, Male",
-       x = "Country", 
-       y = "Suicides per 100k", 
-       color = "Age") + 
-  theme(legend.position = "none") + 
-  theme(axis.text.x = element_text(angle = 90, hjust = 1))
-
-## Country by all age groups (on same scale)
-task5c <- ggplot(age_country, aes(x = country, y = suicide_per_100k, col = age, group = 1)) + 
-  facet_grid(age ~ ., scales = "free_y") + 
-  geom_line() + 
-  geom_point() + 
-  labs(title = "Suicides Per 100k by Country",
+## STEP-2: Results (Graph) to show the Suicide rate per 100k over all age groups by country.......
+task5 <- ggplot(suicide_by_country_age, aes(x = country, y = suicide_per_100k, col = age,group = 1)) + 
+  facet_grid(age ~ ., scales = "free") + 
+  geom_bar(stat="identity", fill="white")+
+  theme(panel.background = element_rect( fill = "#efefef", color = NA ))+
+  theme(axis.text=element_text(size=8)) +
+  labs(title = "Suicide rate Per 100k by Country (with 30 years of data)",
        subtitle = "All Age Groups",
        x = "Country", 
        y = "Suicides per 100k", 
        color = "Age") + 
-  theme(legend.position = "none") + 
   theme(axis.text.x = element_text(angle = 90, hjust = 1))
 
 ################################################################################
@@ -336,9 +302,7 @@ print(task1)
 print(task1A)
 print(task2)
 print(task3)
-print(task5c)
-print(task5a)
-print(task5b)
+print(task5)
 print(task6)
 print(task7a)
 print(task7b)
@@ -362,14 +326,8 @@ dev.off()
 png ("Suicide rate per 100k over all genders for all age groups (Stacked graph to show proportion by absolute numbers).png")
 print(task3)
 dev.off()
-png ("Country plot by all age groups for females.png")
-print(task5a)
-dev.off()
-png ("Country plot by all age groups for males.png")
-print(task5b)
-dev.off()
-png ("Country plot by all age groups (on same scale).png")
-print(task5c)
+png ("suicide rate per 100k by Country for all age groups.png")
+print(task5)
 dev.off()
 png ("Suicides rates per 100k trends for all age groups every 5 years.png")
 print(task6)
