@@ -51,10 +51,10 @@ datafor30country <- aggregate(cbind(suicide_dataset$suicides_no,suicide_dataset$
                               , FUN=sum)
 colnames(datafor30country)<-c("age_group","total_suicides","total_population")
 
-datafor30country$per100k <- (datafor30country$total_suicides*100000)/ datafor30country$total_population
-datafor30country$hk <- (datafor30country$total_population/100000)
+datafor30country$suicide_rate_per100k <- (datafor30country$total_suicides*100000)/ datafor30country$total_population
+datafor30country$total_population_in100k <- (datafor30country$total_population/100000)
 
-prop.test(datafor30country$total_suicides,datafor30country$total_population)
+prop.test(datafor30country$suicide_rate_per100k,datafor30country$total_population_in100k)
 
 ################################################################################
 ## Preparing a raw dataframe by aggregating columns for chi-squared test
@@ -63,9 +63,9 @@ prop.test(datafor30country$total_suicides,datafor30country$total_population)
 fulldata <- aggregate(cbind(raw_data$suicides_no,raw_data$population) ~ raw_data$age, FUN=sum)
 colnames(fulldata)<-c("age_group","total_suicides","total_population")
 
-fulldata$per100k <- (fulldata$total_suicides*100000)/fulldata$total_population
-fulldata$hk <- (fulldata$total_population/100000)
+fulldata$suicide_rate_per100k <- (fulldata$total_suicides*100000)/fulldata$total_population
+fulldata$total_population_in100k <- (fulldata$total_population/100000)
 
-prop.test(fulldata$total_suicides,fulldata$total_population)
+prop.test(fulldata$suicide_rate_per100k,fulldata$total_population_in100k)
 
 
