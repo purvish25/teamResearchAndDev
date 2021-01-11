@@ -1,0 +1,16 @@
+── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──
+✔ ggplot2 3.3.3     ✔ dplyr   1.0.2
+✔ tibble  3.0.4     ✔ stringr 1.4.0
+✔ tidyr   1.1.2     ✔ forcats 0.5.0
+✔ purrr   0.3.4     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+Warning message:
+In `[<-.factor`(`*tmp*`, suicide_dataset$age == "5-14 years", value = c(6L,  :
+  invalid factor level, NA generated
+`summarise()` regrouping output by 'country' (override with `.groups` argument)
+`summarise()` ungrouping output (override with `.groups` argument)
+`summarise()` regrouping output by 'age' (override with `.groups` argument)
+null device 
+          1 
